@@ -1,8 +1,8 @@
-logging:
-  pattern:
-    console: "%d - %msg%n"
-  path: D:/log/tomcat/
-  file: D:/log/tomcat/sell.log
-  level:
-    com.flamingo.sell.LoggerTest: debug
-#  level: debug
+#logging:
+#  pattern:
+#    console: "%d - %msg%n"
+#  path: D:/log/tomcat/
+#  file: D:/log/tomcat/sell.log
+#  level:
+#    com.flamingo.sell.LoggerTest: debug
+##  level: debug

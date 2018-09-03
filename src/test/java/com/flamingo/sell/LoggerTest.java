@@ -22,5 +22,6 @@ public class LoggerTest {
         log.info("info...");
         log.info("name: {}, age: {}",name,age);
         log.error("error...");
+        log.warn("warn...");
     }
 }
