@@ -1,5 +1,6 @@
 package com.flamingo.sell.model.entity;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.Proxy;
 
 import javax.persistence.Entity;
@@ -15,6 +16,7 @@ import java.util.Date;
 @Proxy(lazy = false)
 @JsonIgnoreProperties(value={"hibernateLazyInitializer","handler","fieldHandler"})
 @Entity
+@DynamicUpdate
 public class ProductCategory {
 
     /** 类目id. */

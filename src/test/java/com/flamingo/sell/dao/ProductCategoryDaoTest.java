@@ -35,7 +35,7 @@ public class ProductCategoryDaoTest {
     public void updateOne() {
         ProductCategory productCategory = productCategoryDao.findOne(2);
         productCategory.setCategoryName("男生最爱榜");
-        productCategory.setCategoryType(10);
+        productCategory.setCategoryType(3);
         productCategoryDao.save(productCategory);
     }
 }
