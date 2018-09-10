@@ -9,6 +9,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Arrays;
+import java.util.List;
+
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class ProductCategoryDaoTest {
@@ -37,5 +40,12 @@ public class ProductCategoryDaoTest {
         ProductCategory productCategory = productCategoryDao.findOne(2);
         productCategory.setCategoryName("男生最爱榜");
         productCategoryDao.save(productCategory);
+    }
+
+    @Test
+    public void findByCategoryTypeInTest() {
+        List<Integer> typeList = Arrays.asList(2,3,4,5);
+        List<ProductCategory> result = productCategoryDao.findByCategoryTypeIn(typeList);
+        Assert.assertNotEquals(0,result.size());
     }
 }
