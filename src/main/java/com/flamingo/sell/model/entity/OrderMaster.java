@@ -8,6 +8,7 @@ import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.Proxy;
 
 import javax.persistence.Entity;
+import javax.persistence.Id;
 import java.math.BigDecimal;
 import java.util.Date;
 
@@ -22,6 +23,7 @@ import java.util.Date;
 public class OrderMaster {
 
     /** 订单id. */
+    @Id
     private String orderId;
 
     /** 买家名字. */
