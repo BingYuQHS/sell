@@ -6,11 +6,13 @@ import com.flamingo.sell.enums.PayStatusEnum;
 import lombok.Data;
 import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.Proxy;
+import org.springframework.data.annotation.Transient;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 
 /**
  * 订单主表
@@ -52,5 +54,9 @@ public class OrderMaster {
 
     /** 更新时间. */
     private Date updateTime;
+
+    // /** 订单主表的一条记录对应订单详情的多条记录. */
+    // @Transient//该注解可以忽略数据库对字段要求，但不推荐，推荐新建dto对象（Data transferable object）
+    // private List<OrderDetail> orderDetailList;
 
 }
