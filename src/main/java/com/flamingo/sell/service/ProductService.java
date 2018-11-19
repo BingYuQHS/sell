@@ -1,5 +1,6 @@
 package com.flamingo.sell.service;
 
+import com.flamingo.sell.model.dto.CartDTO;
 import com.flamingo.sell.model.entity.ProductInfo;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -32,12 +33,15 @@ public interface ProductService {
      */
     ProductInfo save(ProductInfo productInfo);
 
-    /***
-     * TODO: 取消订单时减加库存
+    /**
+     * 取消订单时减加库存
+     * @param cartDTOList
      */
+    void increaseStock(List<CartDTO> cartDTOList);
 
-
-    /***
-     * TODO：下订单减库存
+    /**
+     * 下订单减库存
+     * @param cartDTOList
      */
+    void decreaseStock(List<CartDTO> cartDTOList);
 }
