@@ -65,11 +65,8 @@ public class BuyerOrderController {
     public ResultVO<List<OrderDTO>> list(@RequestParam("openid") String openid,
                                          @RequestParam(value = "page", defaultValue = "0") Integer page,
                                          @RequestParam(value = "size", defaultValue = "10") Integer size){
-        if (StringUtils.isEmpty(openid)) {
-            log.error("【查询订单列表】 openid为空");
-            throw new SellException(ResultEnum.PARAM_ERROR.getCode(),
-                    "openid不能为空");
-        }
+        checkParamNotEmpty(openid);
+
         PageRequest request = new PageRequest(page, size);
         Page<OrderDTO> orderDTOPage = orderService.findList(openid, request);
 
@@ -84,16 +81,8 @@ public class BuyerOrderController {
     @GetMapping("/detail")
     public ResultVO<OrderDTO> detail(@RequestParam("openid") String openid,
                                      @RequestParam("orderId") String orderId){
-        if (StringUtils.isEmpty(openid)) {
-            log.error("【查询订单详情】 openid为空");
-            throw new SellException(ResultEnum.PARAM_ERROR.getCode(),
-                    "openid不能为空");
-        }
-        if (StringUtils.isEmpty(orderId)) {
-            log.error("【查询订单详情】 orderId为空");
-            throw new SellException(ResultEnum.PARAM_ERROR.getCode(),
-                    "orderId不能为空");
-        }
+        checkParamNotEmpty(openid);
+        checkParamNotEmpty(orderId);
 
         //TODO openid传来还未使用 有越权访问，不安全 需改进
         OrderDTO orderDTO = orderService.findOne(orderId);
@@ -102,5 +91,24 @@ public class BuyerOrderController {
     }
 
     //取消订单
+    @PostMapping("/cancel")
+    public ResultVO cancel(@RequestParam("openid") String openid,
+                           @RequestParam("orderId") String orderId) {
+        checkParamNotEmpty(openid);
+        checkParamNotEmpty(orderId);
+        //TODO openid传来还未使用 有越权访问，不安全 需改进
 
+        OrderDTO orderDTO = orderService.findOne(orderId);
+        orderService.cancel(orderDTO);
+
+        return ResultVOUtil.success();
+    }
+
+    private static void checkParamNotEmpty(String param){
+        if (StringUtils.isEmpty(param)) {
+            log.error("【查询订单详情】 {}为空",param);
+            throw new SellException(ResultEnum.PARAM_ERROR.getCode(),
+                    param+"不能为空");
+        }
+    }
 }
