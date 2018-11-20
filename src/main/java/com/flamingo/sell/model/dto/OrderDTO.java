@@ -1,5 +1,6 @@
 package com.flamingo.sell.model.dto;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
 
 import java.math.BigDecimal;
@@ -15,6 +16,7 @@ import java.util.List;
  * OrderDTO (data transferable object)
  */
 @Data
+@JsonInclude(JsonInclude.Include.NON_NULL)//该注解限制不返回值为null的字段到前端
 public class OrderDTO {
 
     /** 订单id. */
