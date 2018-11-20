@@ -1,5 +1,6 @@
 package com.flamingo.sell.service.impl;
 
+import com.flamingo.sell.converter.OrderMaster2OrderDTOConverter;
 import com.flamingo.sell.dao.OrderDetailDao;
 import com.flamingo.sell.dao.OrderMasterDao;
 import com.flamingo.sell.enums.OrderStatusEnum;
@@ -17,9 +18,11 @@ import com.flamingo.sell.utils.KeyUtil;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -89,12 +92,34 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public OrderDTO findOne(String orderId) {
-        return null;
+        //查询订单
+        OrderMaster orderMaster = orderMasterDao.findOne(orderId);
+        if(null == orderMaster){
+            throw new SellException(ResultEnum.ORDER_NOT_EXIST);
+        }
+        //查询订单详情
+        List<OrderDetail> orderDetailList = orderDetailDao.findByOrderId(orderId);
+        if (CollectionUtils.isEmpty(orderDetailList)) {
+            throw new SellException(ResultEnum.ORDERDETAIL_NOT_EXIST);
+        }
+
+        //返回OrderDTO
+        OrderDTO orderDTO = new OrderDTO();
+        BeanUtils.copyProperties(orderMaster,orderDTO);
+        orderDTO.setOrderDetailList(orderDetailList);
+
+        return orderDTO;
     }
 
     @Override
     public Page<OrderDTO> findList(String buyerOpenid, Pageable pageable) {
-        return null;
+        //查询订单列表
+        Page<OrderMaster> orderMasterPage = orderMasterDao.findByBuyerOpenid(buyerOpenid, pageable);
+        //封装Page<OrderDTO>
+        List<OrderDTO> orderDTOList = OrderMaster2OrderDTOConverter.convert(orderMasterPage.getContent());
+        Page<OrderDTO> orderDTOPage = new PageImpl<OrderDTO>(orderDTOList,pageable,orderMasterPage.getTotalElements());
+
+        return orderDTOPage;
     }
 
     @Override

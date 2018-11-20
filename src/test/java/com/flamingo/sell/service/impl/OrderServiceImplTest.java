@@ -1,13 +1,17 @@
 package com.flamingo.sell.service.impl;
 
+import com.flamingo.sell.dao.OrderMasterDao;
 import com.flamingo.sell.model.dto.OrderDTO;
 import com.flamingo.sell.model.entity.OrderDetail;
+import com.flamingo.sell.model.entity.OrderMaster;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.ArrayList;
@@ -24,6 +28,8 @@ public class OrderServiceImplTest {
     private OrderServiceImpl orderService;
 
     private final String BUYER_OPENID = "118118";
+
+    private final String ORDER_ID = "1542649753359277536";
 
     @Test
     public void create() throws Exception {
@@ -54,10 +60,16 @@ public class OrderServiceImplTest {
 
     @Test
     public void findOne() throws Exception {
+        OrderDTO orderDTO = orderService.findOne(ORDER_ID);
+        log.info("查询单个订单 result={}",orderDTO);
+        Assert.assertEquals(ORDER_ID, orderDTO.getOrderId());
     }
 
     @Test
     public void findList() throws Exception {
+        PageRequest pageRequest = new PageRequest(0, 2);
+        Page<OrderDTO> orderDTOPage = orderService.findList(BUYER_OPENID, pageRequest);
+        Assert.assertNotEquals(0,orderDTOPage.getTotalElements());
     }
 
     @Test
