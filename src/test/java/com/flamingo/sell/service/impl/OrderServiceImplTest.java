@@ -1,6 +1,7 @@
 package com.flamingo.sell.service.impl;
 
 import com.flamingo.sell.dao.OrderMasterDao;
+import com.flamingo.sell.enums.OrderStatusEnum;
 import com.flamingo.sell.model.dto.OrderDTO;
 import com.flamingo.sell.model.entity.OrderDetail;
 import com.flamingo.sell.model.entity.OrderMaster;
@@ -74,6 +75,9 @@ public class OrderServiceImplTest {
 
     @Test
     public void cancel() throws Exception {
+        OrderDTO orderDTO = orderService.findOne(ORDER_ID);
+        OrderDTO result = orderService.cancel(orderDTO);
+        Assert.assertEquals(OrderStatusEnum.CANCEL.getCode(),result.getOrderStatus());
     }
 
     @Test
