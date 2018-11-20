@@ -1,12 +1,13 @@
 package com.flamingo.sell.model.dto;
 
-import com.flamingo.sell.enums.OrderStatusEnum;
-import com.flamingo.sell.enums.PayStatusEnum;
-import com.flamingo.sell.model.entity.OrderDetail;
 import lombok.Data;
 
-import javax.persistence.Id;
 import java.math.BigDecimal;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+
+import com.flamingo.sell.model.entity.OrderDetail;
+import com.flamingo.sell.serializer.Date2LongSerializer;
+
 import java.util.Date;
 import java.util.List;
 
@@ -41,9 +42,11 @@ public class OrderDTO {
     private Integer payStatus;
 
     /** 创建时间. */
+    @JsonSerialize(using = Date2LongSerializer.class)
     private Date createTime;
 
     /** 更新时间. */
+    @JsonSerialize(using = Date2LongSerializer.class)
     private Date updateTime;
 
     /** 一条订单对应多条订单详情记录. */
