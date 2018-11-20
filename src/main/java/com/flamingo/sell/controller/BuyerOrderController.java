@@ -81,6 +81,25 @@ public class BuyerOrderController {
     }
 
     //订单详情
+    @GetMapping("/detail")
+    public ResultVO<OrderDTO> detail(@RequestParam("openid") String openid,
+                                     @RequestParam("orderId") String orderId){
+        if (StringUtils.isEmpty(openid)) {
+            log.error("【查询订单详情】 openid为空");
+            throw new SellException(ResultEnum.PARAM_ERROR.getCode(),
+                    "openid不能为空");
+        }
+        if (StringUtils.isEmpty(orderId)) {
+            log.error("【查询订单详情】 orderId为空");
+            throw new SellException(ResultEnum.PARAM_ERROR.getCode(),
+                    "orderId不能为空");
+        }
+
+        //TODO openid传来还未使用 有越权访问，不安全 需改进
+        OrderDTO orderDTO = orderService.findOne(orderId);
+        return ResultVOUtil.success(orderDTO);
+
+    }
 
     //取消订单
 
