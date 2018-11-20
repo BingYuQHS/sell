@@ -24,6 +24,11 @@ public enum ResultEnum {
 
     ORDER_PAY_STATUS_ERROR(10008,"订单支付状态不正确"),
 
+    //表单验证异常
+    PARAM_ERROR(20001,"参数不正确"),
+
+    CART_EMPTY(20002,"购物车为空"),
+
     ;
 
     private Integer code;
