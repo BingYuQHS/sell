@@ -61,6 +61,24 @@ public class BuyerOrderController {
     }
 
     //订单列表
+    @GetMapping("/list")
+    public ResultVO<List<OrderDTO>> list(@RequestParam("openid") String openid,
+                                         @RequestParam(value = "page", defaultValue = "0") Integer page,
+                                         @RequestParam(value = "size", defaultValue = "10") Integer size){
+        if (StringUtils.isEmpty(openid)) {
+            log.error("【查询订单列表】 openid为空");
+            throw new SellException(ResultEnum.PARAM_ERROR.getCode(),
+                    "openid不能为空");
+        }
+        PageRequest request = new PageRequest(page, size);
+        Page<OrderDTO> orderDTOPage = orderService.findList(openid, request);
+
+        return ResultVOUtil.success(orderDTOPage.getContent());//列表
+        // orderDTOPage.getTotalElements();总数
+        // orderDTOPage.getTotalPages();总页数
+        // page;第几页
+
+    }
 
     //订单详情
 
