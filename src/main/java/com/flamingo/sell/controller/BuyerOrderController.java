@@ -6,6 +6,7 @@ import com.flamingo.sell.exception.SellException;
 import com.flamingo.sell.form.OrderForm;
 import com.flamingo.sell.model.dto.OrderDTO;
 import com.flamingo.sell.model.vo.ResultVO;
+import com.flamingo.sell.service.BuyerService;
 import com.flamingo.sell.service.OrderService;
 import com.flamingo.sell.utils.ResultVOUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -32,6 +33,9 @@ public class BuyerOrderController {
 
     @Autowired
     private OrderService orderService;
+
+    @Autowired
+    private BuyerService buyerService;
 
     /**
      * 创建订单
@@ -83,9 +87,8 @@ public class BuyerOrderController {
                                      @RequestParam("orderId") String orderId){
         checkParamNotEmpty(openid);
         checkParamNotEmpty(orderId);
-
-        //TODO openid传来还未使用 有越权访问，不安全 需改进
-        OrderDTO orderDTO = orderService.findOne(orderId);
+        //解决openid传来还未使用 有越权访问，不安全 需改进
+        OrderDTO orderDTO = buyerService.findOrderOne(openid,orderId);
         return ResultVOUtil.success(orderDTO);
 
     }
@@ -96,19 +99,15 @@ public class BuyerOrderController {
                            @RequestParam("orderId") String orderId) {
         checkParamNotEmpty(openid);
         checkParamNotEmpty(orderId);
-        //TODO openid传来还未使用 有越权访问，不安全 需改进
-
-        OrderDTO orderDTO = orderService.findOne(orderId);
-        orderService.cancel(orderDTO);
-
+        //改进了 openid传来还未使用 有越权访问，不安全 需改进
+        OrderDTO orderDTO = buyerService.cancelOrder(openid,orderId);
         return ResultVOUtil.success();
     }
 
     private static void checkParamNotEmpty(String param){
         if (StringUtils.isEmpty(param)) {
             log.error("【查询订单详情】 {}为空",param);
-            throw new SellException(ResultEnum.PARAM_ERROR.getCode(),
-                    param+"不能为空");
+            throw new SellException(ResultEnum.PARAM_ERROR.getCode(),"参数不能为null");
         }
     }
 }

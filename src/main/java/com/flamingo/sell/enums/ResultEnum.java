@@ -29,6 +29,10 @@ public enum ResultEnum {
 
     CART_EMPTY(20002,"购物车为空"),
 
+    //安全性异常
+    OREDR_OWNER_ERROR(30001,"该订单不属于当前用户"),
+
+
     ;
 
     private Integer code;
