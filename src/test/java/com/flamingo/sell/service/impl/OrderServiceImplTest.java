@@ -2,6 +2,7 @@ package com.flamingo.sell.service.impl;
 
 import com.flamingo.sell.dao.OrderMasterDao;
 import com.flamingo.sell.enums.OrderStatusEnum;
+import com.flamingo.sell.enums.PayStatusEnum;
 import com.flamingo.sell.model.dto.OrderDTO;
 import com.flamingo.sell.model.entity.OrderDetail;
 import com.flamingo.sell.model.entity.OrderMaster;
@@ -82,10 +83,16 @@ public class OrderServiceImplTest {
 
     @Test
     public void finish() throws Exception {
+        OrderDTO orderDTO = orderService.findOne(ORDER_ID);
+        OrderDTO result = orderService.finish(orderDTO);
+        Assert.assertEquals(OrderStatusEnum.FINISHED.getCode(),result.getOrderStatus());
     }
 
     @Test
     public void paid() throws Exception {
+        OrderDTO orderDTO = orderService.findOne(ORDER_ID);
+        OrderDTO result = orderService.paid(orderDTO);
+        Assert.assertEquals(PayStatusEnum.SUCCESS.getCode(),result.getPayStatus());
     }
 
 }
